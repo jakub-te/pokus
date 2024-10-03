@@ -19,8 +19,7 @@ game_board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 1, 1, 0, 1, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],]
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
 
 // Initialize the circle's position
 let x = 0;
@@ -29,6 +28,27 @@ let y = 0;
 // Create the game board
 function createBoard() {
     //TODO: Dodělej funkci na vytvoření herní mapy
+    for (let radek = 0; radek < game_board.length; radek++) {
+        const radek_tabulky = document.createElement("tr"); // Vytvoříme nový řádek tabulky
+      
+        for (let sloupec = 0; sloupec < game_board.length; sloupec++) {
+          const bunka_tabulky = document.createElement("td"); // Vytvoříme novou buňku tabulky
+      
+          radek_tabulky.appendChild(bunka_tabulky); // Přidáme novou buňku do řádku tabulky
+      
+          if (game_board[radek][sloupec] == 1) {
+            // Pokud se na této pozici nachází překážka
+      
+            const square = document.createElement("div"); // Vytvoříme element div, který slouží jako zábrana
+      
+            square.classList.add("square"); // Přidáme divu třídu pro pozdější nastavení jeho vlastností
+      
+            bunka_tabulky.appendChild(square); // Přidáme div do buňky tabulky
+          }
+        }
+        board.appendChild(radek_tabulky); // přidáme celý řádek do tabulky
+      }
+      
 }
 
 createBoard()
