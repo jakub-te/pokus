@@ -13,11 +13,11 @@ const numCols = 10;
 game_board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 1, 1, 0, 1, 1, 1, 1],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
 [0, 0, 0, 1, 1, 0, 1, 0, 0, 0],
 [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
 
@@ -44,6 +44,15 @@ function createBoard() {
             square.classList.add("square"); // Přidáme divu třídu pro pozdější nastavení jeho vlastností
       
             bunka_tabulky.appendChild(square); // Přidáme div do buňky tabulky
+          }
+          if (game_board[radek][sloupec] == 2) {
+            // Pokud se na této pozici nachází překážka
+      
+            const coin = document.createElement("div"); // Vytvoříme element div, který slouží jako zábrana
+      
+            coin.classList.add("coin"); // Přidáme divu třídu pro pozdější nastavení jeho vlastností
+      
+            bunka_tabulky.appendChild(coin); // Přidáme div do buňky tabulky
           }
         }
         board.appendChild(radek_tabulky); // přidáme celý řádek do tabulky
