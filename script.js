@@ -4,6 +4,7 @@ const board = document.getElementById("game-board");
 const rows = 10;
 const cols = 10;
 const circle = document.createElement("div");
+var bitcoins = 0;
 circle.classList.add("circle");
 
 // Initialize a 10x10 array with consecutive numbers
@@ -93,11 +94,20 @@ function moveCircle(event) {
             }
             break;
     }
+    
 
     // Update the circle's position only if it's a valid move
     if (!board.rows[newY].cells[newX].querySelector('.square')) {
         x = newX;
         y = newY;
+    }
+    const coin=board.rows[y].cells[x].querySelector('.coin');
+    if (coin) {
+        bitcoins++;
+        game_board[newY][newX] = 0;
+        console.log("bitcoin");
+        coin.remove();
+        
     }
 
     // Add the circle to the new position
