@@ -1,11 +1,13 @@
 // uprava prvniho radku pro test, a zmena
 
 const board = document.getElementById("game-board");
+const money_label = document.getElementById("penizky");
+var bitcoins = 0;
+money_label.innerText="Bitcoin: "+bitcoins;
 const rows = 10;
 const cols = 10;
 const circle = document.createElement("div");
-var bitcoins = 0;
-var cislo = 1;
+var cislo = 0;
 circle.classList.add("circle");
 
 // Initialize a 10x10 array with consecutive numbers
@@ -23,7 +25,7 @@ game_board1 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [0, 2, 0, 1, 1, 0, 1, 0, 0, 0],
 [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
 
-game_board1_orig = game_board1.copy()
+// game_board1_orig = game_board1.copy()
 
 game_board2 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
 [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
@@ -36,10 +38,44 @@ game_board2 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
 [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
 [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
 
-game_board2_orig = game_board2.copy()
+game_board3 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+[0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
+[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+[0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
+
+game_board4 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+[0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
+[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+[0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
+
+game_board5 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+[0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
+[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+[0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
+
+// game_board2_orig = game_board2.copy()
 
 
-var game_board = game_board1;
+var game_board_pole = [game_board1,game_board2,game_board3,game_board4,game_board5];
+game_board = game_board_pole[cislo];
 // Initialize the circle's position
 let x = 0;
 let y = 0;
@@ -125,9 +161,10 @@ function moveCircle(event) {
         game_board[newY][newX] = 0;
         console.log("bitcoin");
         coin.remove();
+        money_label.innerText="Bitcoin: "+bitcoins;
         if (bitcoins%3==0) {
             cislo++;
-            game_board=game_board2_orig;
+            game_board = game_board_pole[cislo];
             console.log(game_board);
             while (board.lastElementChild) {
                 board.removeChild(board.lastElementChild);
