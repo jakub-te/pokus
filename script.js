@@ -5,13 +5,14 @@ const rows = 10;
 const cols = 10;
 const circle = document.createElement("div");
 var bitcoins = 0;
+var cislo = 1;
 circle.classList.add("circle");
 
 // Initialize a 10x10 array with consecutive numbers
 const numRows = 10;
 const numCols = 10;
 
-game_board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+game_board1 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 1, 1, 0, 1, 1, 1, 1],
 [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
@@ -19,9 +20,26 @@ game_board = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
-[0, 0, 0, 1, 1, 0, 1, 0, 0, 0],
+[0, 2, 0, 1, 1, 0, 1, 0, 0, 0],
 [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
 
+game_board1_orig = game_board1.copy()
+
+game_board2 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+[0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
+[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+[0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
+
+game_board2_orig = game_board2.copy()
+
+
+var game_board = game_board1;
 // Initialize the circle's position
 let x = 0;
 let y = 0;
@@ -107,11 +125,25 @@ function moveCircle(event) {
         game_board[newY][newX] = 0;
         console.log("bitcoin");
         coin.remove();
+        if (bitcoins%3==0) {
+            cislo++;
+            game_board=game_board2_orig;
+            console.log(game_board);
+            while (board.lastElementChild) {
+                board.removeChild(board.lastElementChild);
+              }
+            x = 0;
+            y = 0;
+            createBoard();
+        
+                        
+        }
         
     }
 
     // Add the circle to the new position
     board.rows[y].cells[x].appendChild(circle);
+
 }
 
 // Listen for keyboard events
