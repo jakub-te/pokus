@@ -7,11 +7,13 @@ money_label.innerText="Bitcoin: "+bitcoins;
 const rows = 10;
 const cols = 10;
 const circle = document.createElement("div");
+const npc = document.createElement("div");
 var cislo = 0;
-var x_npc;
-var y_npc;
+var x_npc=8;
+var y_npc=9;
 
 circle.classList.add("circle");
+npc.classList.add("npc");
 
 // Initialize a 10x10 array with consecutive numbers
 const numRows = 10;
@@ -213,20 +215,18 @@ function moveCircle(event) {
       }
       
       // Usage example
-      const game_board = [
-        [0, 0, 0, 0, 0],
-        [0, 1, 0, 1, 0],
-        [0, 0, 0, 0, 0],
-        [1, 1, 1, 1, 0],
-        [0, 0, 0, 0, 0]
-      ];
-      const xp = 0;
-      const yp = 4;
-      const x_npc = 4;
-      const y_npc = 0;
       
-      const shortestPath = shortestPathSearch(game_board, y_npc, x_npc, yp, xp);
-      console.log(shortestPath);
+ 
+      function posunNPC() {
+        const shortestPath = shortestPathSearch(game_board, y_npc, x_npc, y, x);
+        if (shortestPath.length > 1){
+          newNPC_x = shortestPath[1][1];
+          newNPC_y = shortestPath[1][0];
+        }
+
+        console.log(shortestPath);
+      }
+      setInterval(posunNPC, 1000); // spouštěno každou sekundu
     // Update the circle's position only if it's a valid move
     if (!board.rows[newY].cells[newX].querySelector('.square')) {
         x = newX;
