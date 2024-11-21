@@ -8,6 +8,9 @@ const rows = 10;
 const cols = 10;
 const circle = document.createElement("div");
 var cislo = 0;
+var x_npc;
+var y_npc;
+
 circle.classList.add("circle");
 
 // Initialize a 10x10 array with consecutive numbers
@@ -38,38 +41,38 @@ game_board2 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
 [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
 [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
 
-game_board3 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+game_board3 = [[0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+[0, 1, 1, 1, 1, 0, 0, 0, 1, 0],
 [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
-[0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
-[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-[0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
+[0, 0, 1, 1, 0, 0, 0, 1, 1, 0],
+[0, 2, 1, 0, 0, 0, 0, 0, 1, 1],
+[0, 1, 1, 0, 1, 1, 1, 0, 0, 1],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 2]];
 
-game_board4 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
-[0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
-[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
-[0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-[0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
+game_board4 = [[0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+[1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+[0, 0, 2, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 1, 1, 0],
+[0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+[0, 0, 1, 1, 1, 0, 0, 1, 0, 2],
+[0, 0, 1, 2, 0, 0, 0, 0, 1, 0],
+[0, 0, 0, 0, 1, 1, 1, 0, 1, 0],
+[0, 0, 0, 1, 1, 1, 0, 0, 0, 0]];
 
-game_board5 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
-[0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
-[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-[0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
+game_board5 = [[0, 0, 0, 0, 1, 1, 1, 1, 0, 0],
+[0, 0, 0, 0, 0, 1, 1, 1, 2, 0],
 [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-[0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
+[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+[0, 2, 1, 0, 0, 0, 0, 0, 1, 0],
+[0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
+[0, 1, 0, 0, 0, 0, 1, 1, 1, 2],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 // game_board2_orig = game_board2.copy()
 
@@ -149,7 +152,81 @@ function moveCircle(event) {
             break;
     }
     
-
+    // npc
+    function shortestPathSearch(game_board, y_npc, x_npc, yp, xp) {
+        const numRows = game_board.length;
+        const numCols = game_board[0].length;
+      
+        // Define movement directions (up, down, left, right)
+        const dx = [-1, 1, 0, 0];
+        const dy = [0, 0, -1, 1];
+      
+        // Create a 2D array to mark visited cells and store parent cells
+        const visited = Array(numRows)
+          .fill(false)
+          .map(() => Array(numCols).fill(false));
+        const parent = Array(numRows)
+          .fill(null)
+          .map(() => Array(numCols).fill(null));
+      
+        // Create a queue for BFS
+        const queue = [];
+      
+        // Push the NPC's position into the queue
+        queue.push([y_npc, x_npc]);
+        visited[y_npc][x_npc] = true;
+      
+        while (queue.length > 0) {
+          const [x, y] = queue.shift();
+      
+          if (x === yp && y === xp) {
+            // Found the player's position, reconstruct the path
+            const path = [];
+            let curX = yp;
+            let curY = xp;
+            while (curX !== y_npc || curY !== x_npc) {
+              path.push([curX, curY]);
+              const [prevX, prevY] = parent[curX][curY];
+              curX = prevX;
+              curY = prevY;
+            }
+            path.push([y_npc, x_npc]);
+            path.reverse(); // Reverse the path to start from player's position
+            return path;
+          }
+      
+          // Explore adjacent cells
+          for (let i = 0; i < 4; i++) {
+            const newX = x + dx[i];
+            const newY = y + dy[i];
+      
+            if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols && game_board[newX][newY] === 0 && !visited[newX][newY]) {
+              queue.push([newX, newY]);
+              visited[newX][newY] = true;
+              parent[newX][newY] = [x, y];
+            }
+          }
+        }
+      
+        // If no path is found, return an empty array
+        return [];
+      }
+      
+      // Usage example
+      const game_board = [
+        [0, 0, 0, 0, 0],
+        [0, 1, 0, 1, 0],
+        [0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 0],
+        [0, 0, 0, 0, 0]
+      ];
+      const xp = 0;
+      const yp = 4;
+      const x_npc = 4;
+      const y_npc = 0;
+      
+      const shortestPath = shortestPathSearch(game_board, y_npc, x_npc, yp, xp);
+      console.log(shortestPath);
     // Update the circle's position only if it's a valid move
     if (!board.rows[newY].cells[newX].querySelector('.square')) {
         x = newX;
