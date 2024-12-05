@@ -11,6 +11,7 @@ const npc = document.createElement("div");
 var cislo = 0;
 var x_npc=8;
 var y_npc=9;
+var stojinapenizku = false;
 
 circle.classList.add("circle");
 npc.classList.add("npc");
@@ -33,15 +34,27 @@ game_board1 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 // game_board1_orig = game_board1.copy()
 
 game_board2 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 2, 0, 0, 0, 0],
 [0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
 [0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 2, 0, 0, 1, 1, 1, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
+[0, 0, 0, 2, 2, 0, 0, 0, 2, 0],
 [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
 [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
+
+//zaloha
+// game_board2 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+// [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+// [0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+// [0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+// [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+// [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+// [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+// [0, 0, 2, 0, 0, 0, 0, 0, 2, 0],
+// [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+// [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
 
 game_board3 = [[0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 2],
@@ -51,8 +64,8 @@ game_board3 = [[0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
 [0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 1, 1, 0],
 [0, 2, 1, 0, 0, 0, 0, 0, 1, 1],
-[0, 1, 1, 0, 1, 1, 1, 0, 0, 1],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 2]];
+[0, 1, 1, 0, 1, 1, 1, 2, 0, 1],
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
 
 game_board4 = [[0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -161,7 +174,7 @@ function moveCircle(event) {
         x = newX;
         y = newY;
     }
-    //TODO: udelat aby se zapsal penizek nekam ulozil a potom aby se vratil
+    //TODO: udelat aby se zapsal penizek, nekam ulozil a potom aby se vratil
     const coin=board.rows[y].cells[x].querySelector('.coin');
     if (coin) {
         bitcoins++;
@@ -238,7 +251,7 @@ function shortestPathSearch(game_board, y_npc, x_npc, yp, xp) {
       const newX = x + dx[i];
       const newY = y + dy[i];
 
-      if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols && game_board[newX][newY] === 0 && !visited[newX][newY]) {
+      if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols && (game_board[newX][newY] === 0 || game_board[newX][newY] === 2) && !visited[newX][newY]) {
         queue.push([newX, newY]);
         visited[newX][newY] = true;
         parent[newX][newY] = [x, y];
@@ -252,17 +265,26 @@ function shortestPathSearch(game_board, y_npc, x_npc, yp, xp) {
 
 // Usage example
 
-
 function posunNPC() {
   const shortestPath = shortestPathSearch(game_board, y_npc, x_npc, y, x);
   if (shortestPath.length > 1){
     newNPC_x = shortestPath[1][1];
     newNPC_y = shortestPath[1][0];
+    const coin=board.rows[newNPC_y].cells[newNPC_x].querySelector('.coin');
+    if (coin) {
+      stojinapenizku=true;
+    }
+    if (stojinapenizku) {
+      console.log("Vratili jsme penizek");
+      const coin = document.createElement("div"); // Vytvoříme element div, který slouží jako zábrana 
+      coin.classList.add("coin");
+      board.rows[y_npc].cells[x_npc].appendChild(coin);
+      stojinapenizku=false;
+    }
     const newnpcCell = board.rows[newNPC_y].cells[newNPC_x];
     const oldnpcCell = board.rows[y_npc].cells[x_npc];
-
     oldnpcCell.innerHTML = "";
-
+    
     y_npc = newNPC_y;
     x_npc = newNPC_x;
     
