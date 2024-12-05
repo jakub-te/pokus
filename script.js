@@ -117,7 +117,7 @@ function createBoard() {
         }
         board.appendChild(radek_tabulky); // přidáme celý řádek do tabulky
       }
-      
+    board.rows[y_npc].cells[x_npc].appendChild(npc);  
 }
 
 createBoard()
@@ -155,83 +155,13 @@ function moveCircle(event) {
     }
     
     // npc
-    function shortestPathSearch(game_board, y_npc, x_npc, yp, xp) {
-        const numRows = game_board.length;
-        const numCols = game_board[0].length;
-      
-        // Define movement directions (up, down, left, right)
-        const dx = [-1, 1, 0, 0];
-        const dy = [0, 0, -1, 1];
-      
-        // Create a 2D array to mark visited cells and store parent cells
-        const visited = Array(numRows)
-          .fill(false)
-          .map(() => Array(numCols).fill(false));
-        const parent = Array(numRows)
-          .fill(null)
-          .map(() => Array(numCols).fill(null));
-      
-        // Create a queue for BFS
-        const queue = [];
-      
-        // Push the NPC's position into the queue
-        queue.push([y_npc, x_npc]);
-        visited[y_npc][x_npc] = true;
-      
-        while (queue.length > 0) {
-          const [x, y] = queue.shift();
-      
-          if (x === yp && y === xp) {
-            // Found the player's position, reconstruct the path
-            const path = [];
-            let curX = yp;
-            let curY = xp;
-            while (curX !== y_npc || curY !== x_npc) {
-              path.push([curX, curY]);
-              const [prevX, prevY] = parent[curX][curY];
-              curX = prevX;
-              curY = prevY;
-            }
-            path.push([y_npc, x_npc]);
-            path.reverse(); // Reverse the path to start from player's position
-            return path;
-          }
-      
-          // Explore adjacent cells
-          for (let i = 0; i < 4; i++) {
-            const newX = x + dx[i];
-            const newY = y + dy[i];
-      
-            if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols && game_board[newX][newY] === 0 && !visited[newX][newY]) {
-              queue.push([newX, newY]);
-              visited[newX][newY] = true;
-              parent[newX][newY] = [x, y];
-            }
-          }
-        }
-      
-        // If no path is found, return an empty array
-        return [];
-      }
-      
-      // Usage example
-      
- 
-      function posunNPC() {
-        const shortestPath = shortestPathSearch(game_board, y_npc, x_npc, y, x);
-        if (shortestPath.length > 1){
-          newNPC_x = shortestPath[1][1];
-          newNPC_y = shortestPath[1][0];
-        }
-
-        console.log(shortestPath);
-      }
-      setInterval(posunNPC, 1000); // spouštěno každou sekundu
+    
     // Update the circle's position only if it's a valid move
     if (!board.rows[newY].cells[newX].querySelector('.square')) {
         x = newX;
         y = newY;
     }
+    //TODO: udelat aby se zapsal penizek nekam ulozil a potom aby se vratil
     const coin=board.rows[y].cells[x].querySelector('.coin');
     if (coin) {
         bitcoins++;
@@ -248,6 +178,8 @@ function moveCircle(event) {
               }
             x = 0;
             y = 0;
+            x_npc = 9;
+            y_npc = 9;
             createBoard();
         
                         
@@ -259,6 +191,87 @@ function moveCircle(event) {
     board.rows[y].cells[x].appendChild(circle);
 
 }
+function shortestPathSearch(game_board, y_npc, x_npc, yp, xp) {
+  const numRows = game_board.length;
+  const numCols = game_board[0].length;
+
+  // Define movement directions (up, down, left, right)
+  const dx = [-1, 1, 0, 0];
+  const dy = [0, 0, -1, 1];
+
+  // Create a 2D array to mark visited cells and store parent cells
+  const visited = Array(numRows)
+    .fill(false)
+    .map(() => Array(numCols).fill(false));
+  const parent = Array(numRows)
+    .fill(null)
+    .map(() => Array(numCols).fill(null));
+
+  // Create a queue for BFS
+  const queue = [];
+
+  // Push the NPC's position into the queue
+  queue.push([y_npc, x_npc]);
+  visited[y_npc][x_npc] = true;
+
+  while (queue.length > 0) {
+    const [x, y] = queue.shift();
+
+    if (x === yp && y === xp) {
+      // Found the player's position, reconstruct the path
+      const path = [];
+      let curX = yp;
+      let curY = xp;
+      while (curX !== y_npc || curY !== x_npc) {
+        path.push([curX, curY]);
+        const [prevX, prevY] = parent[curX][curY];
+        curX = prevX;
+        curY = prevY;
+      }
+      path.push([y_npc, x_npc]);
+      path.reverse(); // Reverse the path to start from player's position
+      return path;
+    }
+
+    // Explore adjacent cells
+    for (let i = 0; i < 4; i++) {
+      const newX = x + dx[i];
+      const newY = y + dy[i];
+
+      if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols && game_board[newX][newY] === 0 && !visited[newX][newY]) {
+        queue.push([newX, newY]);
+        visited[newX][newY] = true;
+        parent[newX][newY] = [x, y];
+      }
+    }
+  }
+
+  // If no path is found, return an empty array
+  return [];
+}
+
+// Usage example
+
+
+function posunNPC() {
+  const shortestPath = shortestPathSearch(game_board, y_npc, x_npc, y, x);
+  if (shortestPath.length > 1){
+    newNPC_x = shortestPath[1][1];
+    newNPC_y = shortestPath[1][0];
+    const newnpcCell = board.rows[newNPC_y].cells[newNPC_x];
+    const oldnpcCell = board.rows[y_npc].cells[x_npc];
+
+    oldnpcCell.innerHTML = "";
+
+    y_npc = newNPC_y;
+    x_npc = newNPC_x;
+    
+    newnpcCell.appendChild(npc);
+  }
+
+  console.log(shortestPath);
+}
+setInterval(posunNPC, 1000); // spouštěno každou sekundu
 
 // Listen for keyboard events
 document.addEventListener("keydown", moveCircle);
