@@ -12,6 +12,7 @@ var cislo = 0;
 var x_npc=8;
 var y_npc=9;
 var stojinapenizku = false;
+var intervalId;
 
 circle.classList.add("circle");
 npc.classList.add("npc");
@@ -199,6 +200,8 @@ function moveCircle(event) {
         }
         
     }
+    
+
 
     // Add the circle to the new position
     board.rows[y].cells[x].appendChild(circle);
@@ -271,9 +274,14 @@ function posunNPC() {
     newNPC_x = shortestPath[1][1];
     newNPC_y = shortestPath[1][0];
     const coin=board.rows[newNPC_y].cells[newNPC_x].querySelector('.coin');
-    if (coin) {
-      stojinapenizku=true;
-    }
+
+    const newnpcCell = board.rows[newNPC_y].cells[newNPC_x];
+    const oldnpcCell = board.rows[y_npc].cells[x_npc];
+    oldnpcCell.innerHTML = "";
+    
+    
+    
+    newnpcCell.appendChild(npc);
     if (stojinapenizku) {
       console.log("Vratili jsme penizek");
       const coin = document.createElement("div"); // Vytvoříme element div, který slouží jako zábrana 
@@ -281,19 +289,26 @@ function posunNPC() {
       board.rows[y_npc].cells[x_npc].appendChild(coin);
       stojinapenizku=false;
     }
-    const newnpcCell = board.rows[newNPC_y].cells[newNPC_x];
-    const oldnpcCell = board.rows[y_npc].cells[x_npc];
-    oldnpcCell.innerHTML = "";
+
+    if (coin) {
+      stojinapenizku=true;
+    }
+    
     
     y_npc = newNPC_y;
     x_npc = newNPC_x;
-    
-    newnpcCell.appendChild(npc);
   }
 
   console.log(shortestPath);
+  const player=board.rows[y_npc].cells[x_npc].querySelector('.circle');
+    if (player) {
+      console.log("chytil jsem te");
+      circle.remove();
+      clearInterval(intervalId);
+      document.removeEventListener("keydown", moveCircle);
+    }
 }
-setInterval(posunNPC, 1000); // spouštěno každou sekundu
+intervalId = setInterval(posunNPC, 1000); // spouštěno každou sekundu
 
 // Listen for keyboard events
 document.addEventListener("keydown", moveCircle);
