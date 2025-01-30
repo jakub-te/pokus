@@ -35,13 +35,13 @@ game_board1 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 // game_board1_orig = game_board1.copy()
 
 game_board2 = [[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
-[0, 0, 0, 1, 0, 2, 0, 0, 0, 0],
+[0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
 [0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
 [0, 0, 0, 1, 2, 0, 0, 0, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 2, 0, 0, 1, 1, 1, 0, 0],
+[0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
 [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-[0, 0, 0, 2, 2, 0, 0, 0, 2, 0],
+[0, 0, 0, 2, 0, 0, 0, 0, 2, 0],
 [0, 0, 0, 0, 1, 1, 1, 0, 0, 0],
 [0, 0, 0, 1, 1, 0, 0, 0, 0, 0]];
 
@@ -194,7 +194,12 @@ function moveCircle(event) {
             y = 0;
             x_npc = 9;
             y_npc = 9;
-            createBoard();
+            if(cislo<5) {
+              createBoard();
+            }else{
+              window.location.href = "win.html";
+            }
+            
         
                         
         }
@@ -306,6 +311,7 @@ function posunNPC() {
       circle.remove();
       clearInterval(intervalId);
       document.removeEventListener("keydown", moveCircle);
+      window.location.href = "lose_screen.html";
     }
 }
 intervalId = setInterval(posunNPC, 1000); // spouštěno každou sekundu

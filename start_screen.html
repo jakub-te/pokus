@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Screen</title>
+    <img src="coin.png" alt="A description" width="350" height="300" title="This is an image">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0f7fa;
+            font-family: Arial, sans-serif;
+        }
+        .start-screen {
+            text-align: center;
+            background-color: #009688;
+            padding: 40px 60px;
+            border-radius: 10px;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .start-screen h1 {
+            margin: 0 0 20px;
+        }
+        .button {
+            padding: 15px 30px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <div class="start-screen">
+        <h1>Vítejte ve hře!</h1>
+        <p>Jste připraveni hrát?</p>
+	    <p>V této hře je vaším cílem vzít všechny bitcoiny a nenechat se chytit NPC.</p>
+        <button class="button" onclick="jump()">Start Game</button>
+    </div>
+    <img src="BabisVysmaty.jpg" alt="A description" width="380" height="300" title="This is an image">
+
+    <script>
+        function startGame() {
+            // This is where you can redirect to a new game page or simulate starting the game
+            window.location.href = 'game.html'; // Change this to your game page URL, or use window.location.reload() to reload the page.
+        }
+        function jump(){
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
