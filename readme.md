@@ -1,2 +1,3 @@
 # Toto je pokus 
-Uvarime vodu, nalijeme do hrnku pridame sacek s cajem, pockame nez se caj vylouhuje.
+Zlý Babiš chce ukrást všechny bitcoiny, projdi všemi 5 levely a zachraň všechny bitcoiny.
+Ovládání: šipky
