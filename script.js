@@ -205,7 +205,14 @@ function moveCircle(event) {
         }
         
     }
-    
+    const player=board.rows[y_npc].cells[x_npc].querySelector('.circle');
+    if (player) {
+      console.log("chytil jsem te");
+      circle.remove();
+      clearInterval(intervalId);
+      document.removeEventListener("keydown", moveCircle);
+      window.location.href = "lose_screen.html";
+    }
 
 
     // Add the circle to the new position
